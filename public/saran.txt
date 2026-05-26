@@ -1,0 +1,21 @@
+list-list:
+- belum ada "exit class"
+- belum ada "delete/disband class" untuk teacher
+- belum ada show password (symbol mata yang sensor ke password) 
+
+
+saran :
+- untuk updload materi mungkin bisa lampirkan file (PDF, DOCX, XLSX, PPTX), sekalian opsi untuk download materi 
+- mungkin form tugas, samo apload jawaban/tugasnyo baik teks/media/link
+- di dashboard mungkin tunjukin kayak tugas2 apo be yang belum digaweke dan tenggatnyo kapan, samo mencak google classroom atau spon
+- ngom- ngom ttg tugas tambke fitur upload tugas/assignment untuk teacher jg biar biso ngasih tugas atau apo gitu, 
+- mungkin tambhake login khusus admin nian, yang memiliki kekuatan tertinggi (delete kelas wong laen, delete/ban user)
+
+
+
+
+
+
+
+
+
