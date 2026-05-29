@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -67,6 +69,19 @@
             text-align: center;
             margin-bottom: 20px;
         }
+        .password-wrapper {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #718096;
+            user-select: none;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -74,5 +89,32 @@
         <div class="brand-logo">Spon++</div>
         @yield('content')
     </div>
+    <script>
+        lucide.createIcons();
+
+        // Global Input Normalization & Restrictions
+        document.addEventListener('input', function (e) {
+            const target = e.target;
+            
+            // 1. Join Class Code - Auto Uppercase
+            if (target.name === 'join_code' || target.id === 'join_code') {
+                target.value = target.value.toUpperCase();
+            }
+
+            if (target.id === 'username' || target.name === 'username') {
+                target.value = target.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
+            }
+            
+            // Allow more characters for email and general login identifier
+            if (target.id === 'email' || target.name === 'email' || target.id === 'login' || target.name === 'login' || target.id === 'login_identifier' || target.name === 'identifier') {
+                target.value = target.value.toLowerCase();
+            }
+
+            // 3. Name Field - Alphabets & Spaces Only
+            if (target.id === 'name' || target.name === 'name') {
+                target.value = target.value.replace(/[^a-zA-Z\s]/g, '');
+            }
+        });
+    </script>
 </body>
 </html>

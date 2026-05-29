@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'username', 'password'])]
+#[Fillable(['name', 'email', 'username', 'password', 'session_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -20,8 +20,23 @@ class User extends Authenticatable
     public function classrooms()
     {
         return $this->belongsToMany(Classroom::class, 'class_user')
-                    ->withPivot('role')
+                    ->withPivot('role', 'notes', 'last_accessed_at')
                     ->withTimestamps();
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
+    public function accessibleAnnouncements()
+    {
+        return $this->belongsToMany(Announcement::class, 'announcement_visibility');
+    }
+
+    public function announcementComments()
+    {
+        return $this->hasMany(AnnouncementComment::class);
     }
 
     /**

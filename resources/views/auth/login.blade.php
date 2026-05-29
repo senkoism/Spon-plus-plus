@@ -9,23 +9,69 @@
         </div>
     @endif
 
-    <form action="{{ route('login') }}" method="POST">
+    <form id="login-form" action="{{ route('login') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label for="login" class="form-label text-muted small fw-bold">Email or Username</label>
-            <input type="text" class="form-control @error('login') is-invalid @enderror" id="login" name="login" value="{{ old('login') }}" placeholder="Enter email or username" required>
+            <label for="login_identifier" class="form-label text-muted small fw-bold">Email or Username</label>
+            <input type="text" class="form-control @error('login') is-invalid @enderror" id="login_identifier" name="login" value="{{ old('login') }}" placeholder="Enter email or username" required>
             @error('login')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-4">
             <label for="password" class="form-label text-muted small fw-bold">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+            <div class="password-wrapper">
+                <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+                <span class="toggle-password" onclick="togglePassword('password')">
+                    <i data-lucide="eye" style="width:20px;height:20px"></i>
+                </span>
+            </div>
         </div>
+
+        <script>
+            function togglePassword(id) {
+                const input = document.getElementById(id);
+                const toggle = input.nextElementSibling;
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    toggle.innerHTML = '<i data-lucide="eye-off" style="width:20px;height:20px"></i>';
+                } else {
+                    input.type = 'password';
+                    toggle.innerHTML = '<i data-lucide="eye" style="width:20px;height:20px"></i>';
+                }
+                lucide.createIcons();
+            }
+
+            // Change 5 — Remember Me: Save email only
+            window.addEventListener('DOMContentLoaded', () => {
+                const savedEmail = localStorage.getItem('remembered_email');
+                const identifierInput = document.getElementById('login_identifier');
+                const rememberCheckbox = document.getElementById('remember_me');
+
+                if (savedEmail && identifierInput) {
+                    identifierInput.value = savedEmail;
+                    if (rememberCheckbox) rememberCheckbox.checked = true;
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('login-form')?.addEventListener('submit', () => {
+                    const identifierInput = document.getElementById('login_identifier');
+                    const rememberCheckbox = document.getElementById('remember_me');
+
+                    if (rememberCheckbox?.checked) {
+                        localStorage.setItem('remembered_email', identifierInput.value);
+                    } else {
+                        localStorage.removeItem('remembered_email');
+                    }
+                });
+            });
+        </script>
+        
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                <label class="form-check-label small text-muted" for="remember">
+                <input class="form-check-input" type="checkbox" name="remember" id="remember_me">
+                <label class="form-check-label small text-muted" for="remember_me">
                     Remember me
                 </label>
             </div>
